@@ -1,0 +1,65 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<div class="container-fluid px-lg-5 px-3 pt-4 user-detail-sec">
+        <div class="profile-card">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3 class=" user-detail-head">Join a meeting in <span>Overt Meet</span></h3>
+                </div>
+                <div class="col-lg-3 col-md-6 col-6 info-col pt-lg-3 user-detail-info">
+                    <p>Join Teams meetings anytime, anywhere,<br> from any device.</p>
+                </div>
+                <div class="col-lg-3 col-md-6 col-6 info-col pt-lg-3 pt-md-3 pt-4">
+                    <div class="card card-opt">
+                        <div class="card-body meet-opt">
+                          <h5 class="card-title">Start a call.</h5>
+                          <p class="card-text">Click here to call your contact.</p>
+                          <div style="display: flex; justify-content: end;">
+                            <a class="btn  " href="{% url 'chat' username %}">Call</a>
+                          </div>
+                         </div>
+                      </div>
+                </div> 
+                <div class="col-lg-3 col-md-6 col-6 info-col pt-lg-3 pt-md-3 pt-4">
+                    <div class="card card-opt">
+                        <div class="card-body meet-opt">
+                          <h5 class="card-title">Join Room</h5>
+                          <p class="card-text">Click here to join the meeting.</p>
+                          <div style="display: flex; justify-content: end;">
+                            <a class="btn  " href="{% url 'select_room_view' %}">Join Room</a>
+                          </div>
+                         </div>
+                      </div>
+                </div> 
+                <div class="col-lg-3 col-md-6 col-6 info-col pt-lg-3 pt-md-3 pt-4">
+                    <div class="card card-opt">
+                        <div class="card-body meet-opt">
+                          <h5 class="card-title">My Rooms</h5>
+                          <p class="card-text">Click here to Create the new Room</p>
+                          <div style="display: flex; justify-content: end;">
+                            <a class="btn " href="{% url 'room_list_view' %}">My Rooms</a>
+                          </div>
+                        </div>
+                      </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-6 info-col pt-lg-3 pt-md-3 pt-4">
+                    <div class="card card-opt">
+                        <div class="card-body meet-opt">
+                          <h5 class="card-title">Update</h5>
+                          <p class="card-text">Click here to Update your Information.</p>
+                          <div style="display: flex; justify-content: end;">
+                            <a  class="btn " href="{% url 'user_update_view' %}">Update</a>
+                          </div>
+                        </div>
+                      </div>
+                </div>
+            </div>
+           
+            
+
+        </div>
+   </div>
+
+{% endblock %}

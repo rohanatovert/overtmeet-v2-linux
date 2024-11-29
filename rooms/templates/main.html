@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="../../static/images/overt-fav.png">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="../../static/css/main.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>  
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>  
+    <title>Overt Meet</title>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg  " style="background-color: #0D1944;">
+        <div class="container-fluid navsec">
+            <div class="heading-mark">
+                <a  class="navbar-brand" href="{% url 'landing' %}" style="color: #fff;">Overt Meet</a>
+            </div>
+            <button class="navbar-toggler ml-auto custom-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon "></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto">
+                    {% if request.user.is_authenticated %}
+                        <li class="nav-item nav-nav"><a href="{% url 'user_detail_view' request.user.id %}" class="nav-links active" aria-current="page">Home</a></li>
+                        <li class="nav-item nav-nav"><a href="{% url 'features'%}" class="nav-links">Features</a></li>
+                        <li class="nav-item nav-nav"><a href="{% url 'select_room_view' %}" class="nav-links">Meeting</a></li>
+                        <li class="nav-item nav-nav"><a href="{% url 'room_list_view' %}" class="nav-links">Rooms</a></li>
+                        <li class="nav-item nav-nav"><a href="{% url 'room_creation_view' %}" class="nav-links">Create Room</a></li>
+                        <li class="nav-item nav-nav"><a href="{% url 'recordings' %}" class="nav-links">Recordings</a></li>
+                        <li class="nav-item nav-nav"><a href="{% url 'user_update_view'%}" class="nav-links">Profile</a></li>                
+                        <li class="nav-item nav-nav"><a href="{% url 'pricing'%}" class="nav-links">Your Plans</a></li>               
+                        <li class="nav-item nav-nav"><a href="{% url 'contact'%}" class="nav-links">Contact Us</a></li>
+                        <li class="nav-item"><img src="{{ user.image_url }}" style="width: 1.5em; height:auto"></li>
+                        <li class="nav-item"><a href="{% url 'user_detail_view' request.user.id %}" id="userName">{{request.user.username}}</a>
+                        <li class="nav-item"><a href="{% url 'logout_view' %}" class="nav-links" id="logOut">Logout</a></li>
+                    {% else %}
+                        <li class="nav-item nav-nav"><a href="{% url 'landing' %}" class="nav-links active" aria-current="page">Home</a></li>
+                        <li class="nav-item nav-nav"><a href="{% url 'features'%}" class="nav-links">Features</a></li>
+                        <li class="nav-item nav-nav"><a href="{% url 'anon_pricing' %}" class="nav-links">Pricing</a></li>
+                        <li class="nav-item nav-nav"><a href="{% url 'contact'%}" class="nav-links">Contact Us</a></li>
+                        <li class="nav-item nav-nav"><a href="{% url 'login_as'%}" class="nav-links">Login</a></li>
+                        <li class="nav-item nav-nav"><a href="{% url 'user_creation_view' %}" class="nav-links">Sign Up</a></li>
+                    {% endif %}
+                </ul>
+                    
+            </div>
+        </div>
+    </nav>
+    <!-- <div class="vertical" id="draggable">
+    <a href="#" class="toggleBox"><span class="icon"></span></a>
+    <ul class="navItems">
+        <li>
+            <a href="#"><i class="fa fa-home" style="--i:1"></i><span style="--g:1">Home</span></a>
+        </li>
+        <li>
+            <a href="#"><i class="fa fa-user" style="--i:2"></i><span style="--g:2">User</span></a>
+        </li>
+        <li>
+            <a href="#"><i class="fa fa-folder" style="--i:3"></i><span style="--g:3">Portfolio</span></a>
+        </li>
+        <li>
+            <a href="#"><i class="fa fa-message" style="--i:4"></i><span style="--g:4">Chat</span></a>
+        </li>
+    </ul>
+ </div>
+ <script>
+    var toggleClick= document.querySelector(".toggleBox");
+     var vertical = document.querySelector(".vertical");
+    toggleClick.addEventListener('click', ()=>{
+        toggleClick.classList.toggle('active');
+        vertical.classList.toggle('active');
+    })
+    $(function() {  
+    $( "#draggable" ).draggable();  
+    });  
+ </script> -->
+    {% block content %}
+    {% endblock %}
+    <!-- <footer>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-4">
+                    <p><i class="fa-solid fa-location-dot"></i>&nbsp;<a href="https://www.google.com/maps/place/Novel+MSR+PARK/@12.956799,77.697318,17z/data=!3m1!4b1!4m6!3m5!1s0x3bae1367e3432d33:0xf129da34d7cab67!8m2!3d12.9567938!4d77.6998929!16s%2Fg%2F11jsy42y94?entry=ttu" target="_blank">
+                        Overt Ideas & Solution PVT.LTD</a> &nbsp; &nbsp;ORR, Marathahalli Bengaluru,Karnataka 560037
+                    </p>
+                </div>
+                <div class="col-4">
+                    <div class="text-center  Copyright">
+                        &copy; 2023 Copyright:
+                        <a href="https://mdbootstrap.com/">Overt Ideas & Solution PVT.LTD</a>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="social-links">
+                        <div class="row">
+                            <div class="col-lg-3 col-12">
+                                <a
+                            class="btn "
+                            
+                            href="#!"
+                            role="button"
+                            ><img src="../../static/images/facebook.png" alt="" style="width: 30px;height: 30px;">
+                            </a>
+                            </div>
+                            <div class="col-lg-3 col-12">
+                                <a
+                            class="btn "
+                            
+                            href="#!"
+                            role="button"
+                            ><img src="../../static/images/instagram.png" alt="" style="width: 30px;height: 30px;">
+                                </a>
+                            </div>
+                            <div class="col-lg-3 col-12">
+                                <a
+                            class="btn "
+                            
+                            href="#!"
+                            role="button"
+                            ><img src="../../static/images/linkedin.png" alt="" style="width: 30px;height: 30px;">
+                          </a>
+                            </div>
+                            <div class="col-lg-3 col-12">
+                                <a
+                                class="btn "
+                                
+                                href="#!"
+                                role="button"
+                                ><img src="../../static/images/snapchat.png" alt="" style="width: 30px;height: 30px;">
+                              </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer> -->
+    <footer>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-8 col-12 footer-address">
+                    <p><i class="fa-solid fa-location-dot"></i>&nbsp;<a href="https://www.google.com/maps/place/Novel+MSR+PARK/@12.956799,77.697318,17z/data=!3m1!4b1!4m6!3m5!1s0x3bae1367e3432d33:0xf129da34d7cab67!8m2!3d12.9567938!4d77.6998929!16s%2Fg%2F11jsy42y94?entry=ttu" target="_blank">
+                        Overt Ideas & Solution PVT.LTD</a> &nbsp; &nbsp;ORR, Marathahalli Bengaluru,Karnataka 560037
+                    </p>
+                    <div class="text-center  Copyright">
+                        &copy; 2023 Copyright:
+                        <a href="http://overtideasandsolutions.in/">Overt Ideas & Solution PVT.LTD</a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-12 social-links">
+                    <a  href="https://www.facebook.com/overtideasandsolutions" role="button" target="_blank"><img src="../../static/images/facebook.png" alt="" style="width: 30px;height: 30px;"></a>
+                    <a href="https://www.instagram.com/overtideas/"role="button" target="_blank"><img src="../../static/images/instagram.png" alt="" style="width: 30px;height: 30px;"></a>
+                    <a  href="https://www.linkedin.com/company/overt-ideas-and-solutions/" role="button" target="_blank"><img src="../../static/images/linkedin.png" alt="" style="width: 30px;height: 30px;"></a>
+                    <a  href="https://www.snapchat.com/add/overtideas_2023?share_id=2hbLOtkiLFg&locale=en-US" role="button" target="_blank"><img src="../../static/images/snapchat.png" alt="" style="width: 30px;height: 30px;"></a>
+                </div>
+            </div>
+        </div>
+        
+    </footer>
+	{% block footer_block %}
+	{% endblock %}
+    <!-- <script src="{% static 'js/online_status.js' %}"></script> -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+        var currentUrl = window.location.href;
+        var footer = document.querySelector('footer'); // Adjust the selector as per your HTML
+        var footer_content1 = document.querySelector('.footer-address'); // Adjust the selector as per your HTML
+        var footer_content2 = document.querySelector('.footer-address a'); // Adjust the selector as per your HTML
+        var footer_copyright = document.querySelector('.Copyright'); // Adjust the selector as per your HTML
+        var footer_icon = document.querySelector('.fa-location-dot'); // Adjust the selector as per your HTML
+        if (currentUrl.includes('meeting/')) {
+            document.body.style.backgroundColor = '#000'; // 
+            footer.style.backgroundColor = '#000';
+            footer_content1.style.color = '#fff';
+            footer_content2.style.color = '#fff';
+            footer_copyright.style.color = '#fff';
+            footer_icon.style.color = '#fff';
+            footer.style.borderColor = '#000';
+        }
+      
+    
+
+    });
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+</body>
+</html>

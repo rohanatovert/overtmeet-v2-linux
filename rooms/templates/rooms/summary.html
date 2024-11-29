@@ -1,0 +1,18 @@
+{% extends 'main.html' %}
+
+{% load static %}
+
+{% block content %}
+
+
+<h1>Room Name</h1>
+<h2>Meeting ID: {{ meetingId }}</h2>
+<div class="container">
+    <div>
+        <summary>{{ summary }}</summary>
+        <json>{{transcript}}</json>
+    </div>
+</div>
+
+
+{% endblock %}

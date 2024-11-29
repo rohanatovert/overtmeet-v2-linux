@@ -1,0 +1,44 @@
+
+{% extends 'main.html' %}
+{% block content %}
+
+
+
+{% if bot %}
+<h2>Your Recordings</h2>
+<table class="table table-hover table-dark">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Date</th>
+      <th scope="col">Meeting Id</th>
+      <th scope="col">Recording</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for num, file in recordings.items %} 
+  
+        
+        <tr>
+          <th scope="row">{{ num }}</th>
+          <td> {{ file.date }} </td>
+          <td> {{ file.meetingId }} </td>
+          <td><a href="{{ file.filepath }}" download>{{ file.name }}</a></td>
+        </tr>
+        
+  </li>
+  {% endfor %}
+    
+  </tbody>
+</table>
+
+{% else %}
+<div class = "container-fluid d-flex justify-content-center align-items-center" style="height: 90vh;; background-color: rgba(255,0,0,0.1);">
+
+    <h1 class="display-4">There are no recordings. Please change your plan.</h1>
+
+</div>
+
+{% endif %}
+
+{% endblock %}

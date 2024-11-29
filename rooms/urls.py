@@ -1,0 +1,53 @@
+from django.urls import path
+from . import views
+from rest_framework.authtoken.views import obtain_auth_token
+from django.views.generic import TemplateView
+# app_name='rooms'
+
+urlpatterns = [
+    path("", views.index_view, name="landing"),
+    path('login', views.login_view, name='login'),
+    
+    path('features', views.features_view, name='features'),
+    path('login_as', views.home_view, name='login_as'),
+    # path('remote', views.remote_desktop_route, name='remote'),
+    path('screenshot', views.get_screenshot_route, name='screenshot'),
+    path('signup', views.user_creation_view, name='user_creation_view'),
+    path('login_view/', views.login_view, name='login_view'),
+    path('logout_view/', views.logout_view, name='logout_view'),
+    path('user_detail_view/<int:pk>/', views.UserDetailView.as_view(), name='user_detail_view'),
+    path('user_update_view/', views.user_update_view, name='user_update_view'),
+    path('prepare_chat_view/', views.prepare_chat_view, name='prepare_chat_view'),
+    path('join_chat_view/<str:room_code>/', views.join_chat_view, name='join_chat_view'),
+    path('room_list_view/', views.RoomListView.as_view(), name='room_list_view'),
+    path('room_creation_view/', views.room_creation_view, name='room_creation_view'),
+    path('select_room_view/', views.select_room_view, name='select_room_view'),
+    path('meeting/<str:room_code>/', views.meeting, name='meeting'),
+    # path("api/auth-token/", obtain_auth_token, name="rest_auth_token"),
+    # path('api/upload/', views.UserFileUpload.as_view(), name='file_upload'),
+    path('api/meetings/', views.room_list, name='room-list'),
+    path('api/files/', views.file_list, name='file-list'),
+    path('upload/<str:meetingId>', TemplateView.as_view(template_name="rooms/fileshare.html"),name='upload'),
+    path('uploaded/', views.uploaded_file, name="uploaded"),
+    path('pricing', views.initiate_payment, name="pricing"),
+    path('pricing', views.initiate_payment, name="pricing"),
+    path('plans', views.show_plans, name="anon_pricing"),
+    path('download/<str:urltext>', views.serve_download_page, name="download"),
+    path('downloads/<str:meetingId>', views.downloads_page, name="downloads"),
+    path("callback/", views.callback, name="callback"),
+    path('remote', views.remote_session_view, name = "remote-session"),
+    path("contact/", views.contact, name="contact"),
+    path("recordings/", views.recordings_view, name="recordings"),
+    path("terms_of_service/", views.terms_view, name="terms"),
+    path("create_call/", views.calling_view, name="create_call"),
+    path('chat/<str:username>/', views.chatPage, name='chat'),
+    path('stt', views.stt_view, name='stt'),
+    path('summary/<str:meetingId>', views.summary_view, name='summary'),
+    # path('get_summary_data/<str:meetingId>', views.get_summary_data, name='get_summary_data'),
+    path('api/transcripts/', views.receive_transcript, name='receive_transcript'),
+    path('api/stop/', views.stop_transcripts, name='stop_transcripts'),
+    path('api/clear/', views.clean_transcript, name='clean_transcript'),
+    path('api/realtime/', views.send_realtime_transcripts, name='realtime_transcript'),
+    path('meeting/<str:room_code>/api/update_usersystem_data/', views.update_usersystem_data, name='update_usersystem_data'),
+    path('meeting/<str:room_code>/api/get_otherusersystem_data/', views.get_otherusersystem_data, name='get_otherusersystem_data'),
+]

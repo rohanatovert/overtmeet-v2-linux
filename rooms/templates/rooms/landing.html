@@ -1,0 +1,19 @@
+{% extends 'main.html' %}
+
+{% load static %}
+
+{% block content %}
+
+
+<div class="d-flex align-items-center justify-content-center vh-100">
+    <h2> Login as</h2>
+    <button onclick="location.href = '/download'">Host</button>
+    <h3>or</h3>
+    <button onclick="location.href = '/login_view'">Client</button>
+</div>
+
+
+{% endblock %}
+{% block footer_block %}
+    <!-- <footer><p class="font-weight-bold" style="text-align: center;">Sound effects for new participant and chat obtained from https://zapslat.com</p></footer> -->
+{% endblock %}

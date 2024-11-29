@@ -1,0 +1,493 @@
+{% extends 'main.html' %}
+
+{% load static %}
+
+{% block content %}
+
+{% if request.user.username != moderator %}
+            <!-- Content to be displayed if the user is a moderator -->
+            <div id="permissionModal" class="permission-modal">
+              <div class="permission-modal-content">
+                <p>Click the button below to grant permission.</p>
+                <button type="button" id="requestPermissionButton">Request Permission</button>
+              </div>
+            </div>        
+
+{% endif %}
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://overtmeet.overtideasandsolutions.in/external_api.js"></script>
+
+<div class="container-fluid join-view">
+  <!-- PROCTORED FEATURES -->
+  <!-- <div class="floating-box">
+    <h5 class="text-center mb-4">Online Proctoring Test</h5>
+    <div id="status" class="alert alert-info">Please focus on the test.</div>
+    <div id="trackingInfo" class="tracking-info"></div>
+  </div> -->
+           <!-- Include this in your HTML template -->
+  <div class="floating-box">
+    <div class="container-fluid">
+        <div class="row align-items-center justify-content-center">
+ 
+          {% if request.user.username == moderator %}
+            <!-- Content to be displayed if the user is a moderator -->
+            <p>Welcome, Moderator!</p>
+
+            {% else %}
+            <div class="col-auto">
+                <div id="status" class="alert alert-info mb-0">Focus on test.</div>
+                <!-- <i class="fas fa-expand-alt"></i> -->
+            </div>
+            
+            <div class="col-auto" id="tracking-col">
+                <div id="trackingInfo" class="tracking-info"></div>
+            </div>
+            {% endif %}
+            
+        </div>
+    </div>
+  </div>
+
+ 
+<div id="user-info" style="display:hidden;" data-username="{{ request.user.username }}"></div>
+<div id="moderator-info" style="display:hidden;" data-username="{{ moderator }}"></div>
+
+<div id="mySidenav" class="sidenav">
+
+  {% if request.user.username == moderator %}
+  <!-- Content to be displayed if the user is a moderator -->
+  
+      <!-- display all participants -->
+    <!-- when clicked on a participant show the three a tags -->
+    <!-- Create a dropdown for all participants -->
+    <div class="dropdown">
+      <button id="participants">All Participants</button>
+      <div class="dropdown-content" id="participantsDropdown">
+        <!-- Populate this section dynamically using JavaScript -->
+      </div>
+    </div>
+
+    <!-- Display user information sections -->
+    <ul id="userInfo" class="user-info">
+      <!-- Populate this section dynamically using JavaScript -->
+    </ul>
+
+    <ul id="audioInfo" class="devices-info">
+      <!-- Populate this section dynamically using JavaScript -->
+    </ul>
+
+    <ul id="displayInfo" class="display-info">
+      <!-- Populate this section dynamically using JavaScript -->
+    </ul>
+
+    <ul id="trackerInfo" class="tracker-info">
+      <!-- Populate this section dynamically using JavaScript -->
+    </ul>
+  
+  {% else %}
+  <!-- Content for other users -->
+
+
+    <a id="about">Video Devices
+      <ul id="videoInfo" class="devices-info">
+      </ul>
+    </a>
+  
+ 
+    <a id="blog">Audio Devices
+      <ul id="audioInfo" class="devices-info">
+      </ul>
+    </a>
+    
+
+    <a id="projects">Display Devices
+      <ul id="displayInfo" class="display-info">
+      </ul>
+    </a>
+
+  {% endif %}  
+    
+  <!-- <a href="#" id="projects">Projects</a>
+  <a href="#" id="contact">Contact</a> -->
+</div>
+<!-- <div class="container" id="devices-float">
+  <div class="row">
+      
+      <div class="col-auto" id="devices-col">
+        
+          <button id="toggleButton">&#9654;</button>
+        
+          <div id="devicesInfo" class="devices-info">
+             
+              <p>Overlay Content Goes Here</p>
+          </div>
+      </div>
+  </div>
+</div> -->
+
+  <!-- ENDED -->
+
+  <div class="row video-sec">
+    <div class="col-lg-12 col-md-12 col-12 video-content">
+      <div id="jitsi-meet-conf-container" class="video-container">
+      </div>
+    </div>
+        <div class="options">
+          <div>
+          
+            <button class="btn btn-primary mr-auto" onclick="copyText()">Copy Room Code</button>
+          </div>
+          <div class="opt">
+            <input type="text" value="{{ room_code }}" id="copyText" style="display: none">
+            <!-- <button id="btnCustomMic" class="btn btn-dark mx-1"><i class="fa-solid fa-volume-xmark"></i></button> -->
+            <!-- <button id="btnCustomCamera" class="btn btn-dark mx-1"><i class="fa-solid fa-video-slash"></i></button> -->
+            
+            <div style="display: flex;">
+              <button id="btn-toggle-remote" class="btn btn-dark mx-1">Remote Session</button>
+              <button id="caption-btn" class="ccbtn btn btn-dark transcribe">
+                <div class="icon">
+                  <i class="fa-sharp fa-solid fa-closed-captioning fa-lg" style="color: #ffffff;"></i>
+                 <img src="{% static 'images/bars.svg' %}" alt="" />
+                </div>
+                <p>Start Listening</p>
+              </button>
+              <div class="options">
+                <div class="language">
+                  <!-- <p>Language</p> -->
+                  <select name="input-language" id="language"></select>
+                </div>
+              </div>
+            </div>
+            <!-- <button id="btnScreenShareCustom" class="btn btn-info  mx-1">Share Screen</button> -->
+            <!-- <button id="btn-record-screen" class="btn btn-dark  mx-1"><i class="fa-solid fa-record-vinyl"></i></button> -->
+            <!-- <button id='btnCustomTileView' class="btn btn-dark  mx-1">Toggle Tileview</button> -->
+            <!-- <button id="btnShare" class="btn btn-dark  mx-1"><i class="fa-sharp fa-solid fa-arrow-up-from-bracket"></i></button> -->
+          </div>
+          <div class="hang-up">
+            <!-- <button id='btnHangup' class="btn btn-danger ml-auto">Hangup</button> -->
+            <button id="btnShare" class="btn btn-dark  mx-1">File Share</button>
+          </div>
+          
+        </div>
+    
+  </div>
+</div>
+
+
+<div id="myModal" class="filemodal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Select the file you wish to share</h2>
+      <span class="close">&times;</span>
+    </div>
+    <div class="modal-body">
+      <iframe id="iframe-modal1"  >
+      </iframe>
+      <iframe id="iframe-modal2" >
+      </iframe>
+    </div>
+  </div>
+</div>
+
+
+<div id="session" class="sessionmodal">
+  <div class="modal-content" style="border-radius: 30px;">
+    <div class="modal-header">
+      <h2 style="font-size: 28px; font-weight: 500;">Remote Session</h2>
+      <span class= "close" id="close-session">&times;</span>
+    </div>
+    <div style="width:100%; height: 100%; background-color: rgba(255,0,0,0.1);" class="container-fluid d-flex justify-content-center align-items-center" >
+      <!-- <iframe id="iframe-modal3"  height=100% width="100%" > -->
+        <div class="container-fluid d-flex justify-content-center align-items-center btn-group" style="background-color: rgba(243, 239, 7, 0.1);">
+          <h4><a target="_blank" rel="noopener noreferrer" href="{% url 'remote-session' %}"><button type="button" class="btn btn-secondary" style="margin-right: 8px;"> Click here to open Remote Session in a new tab.</button></a></h4>
+          <!-- <button type="button" class="btn btn-secondary" style="margin-right: 8px;"> Click here to open Remote Session in a new tab.</button> -->
+          <h4><a target="_blank" rel="noopener noreferrer" href="http://20.207.207.133:8080"><button type="button" class="btn btn-secondary" style="margin-right: 8px;"> Click here to open Co-Browsing Session in a new tab.</button></a></h4>
+          <!-- <button type="button" class="btn btn-info"> Click here to open Co-Browsing Session in a new tab.</button> -->
+        </div>
+        
+      <!-- </iframe> -->
+    </div>
+  </div>
+</div>
+
+<div id="cc" class="ccmodal">
+  <div class="ccmodal-content">
+    <div class="ccmodal-body">
+      <!-- <span class="close" id="close-cc">&times;</span> -->
+      <div
+            class="result"
+            spellcheck="false"
+            placeholder="Text will be shown here"
+          >
+        <p class="interim"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+ <!-- <div class="buttons">
+        <button class="ccbtn btn clear">
+          <ion-icon name="trash-outline"></ion-icon>
+          <p>Clear</p>
+        </button>
+        <button class="ccbtn btn download" disabled>
+          <ion-icon name="cloud-download-outline"></ion-icon>
+          <p>Download</p>
+        </button>
+      </div> -->
+
+
+    
+    <div class="main-grid-container">
+      <audio class="sound-effect" src="{% static 'sounds/new-chat-message.mp3' %}" id="chat-sound"></audio>
+      <!-- Sound effects for new participant and chat obtained from https://zapslat.com -->
+      <audio class="sound-effect" src="{% static 'sounds/peer-connection-opened.mp3' %}" id="new-connection"></audio>
+      <!-- Sound effects for new participant and chat obtained from https://zapslat.com -->
+    </div>
+    <script src="https://www.WebRTC-Experiment.com/RecordRTC.js"></script>
+    <!-- <script src="https://www.webrtc-experiment.com/File.js"></script> -->
+    <script type="text/javascript">
+    // declare these variables in template
+    // to access from peer.js
+    var username = '{{request.user.username}}';
+    var userImageUrl = "https://20.207.207.133:8000"+"{{ request.user.image_url }}";
+    </script>
+    <script src="{% static 'js/meetingService.js' %}""></script>
+    <script>
+        $(function(){
+            BindEvent();
+
+            // $('#btnStart').on('click',function(){
+            //     var meetingId = '{{ room_code }}';
+            //     var dispNme = '{{request.user.username}}';
+            //     StartMeeting(meetingId,dispNme);
+            // });
+            var meetingId = '{{ room_code }}';
+            var meetingName = '{{ room_name }}';
+            var dispNme = '{{request.user.username}}';
+            var moderator = '{{ moderator }}'
+            StartMeeting(meetingId, meetingName, dispNme, moderator);
+            // $('window').on('load',function(){
+            //     var meetingId = '{{ room_code }}';
+            //     var dispNme = '{{request.user.username}}';
+            //     StartMeeting(meetingId,dispNme);
+            //     console.log(dispNme);
+            // });
+        });
+
+        
+        function copyText() {
+      
+      /* Copy text into clipboard */
+      navigator.clipboard.writeText
+          ("{{ room_code }}");
+  }
+
+
+        
+    </script>
+    <script>
+    // Get the modal
+      var modal = document.getElementById("myModal");
+      var sessionmodal = document.getElementById("session");
+      var ccmodal = document.getElementById("cc");
+
+      // Get the button that opens the modal
+      var btn = document.getElementById("btnShare");
+      var remoteSessionBtn = document.getElementById("btn-toggle-remote");
+      var ccBtn = document.getElementById("caption-btn");
+
+      // Get the <span> element that closes the modal
+      var span = document.getElementsByClassName("close")[0];
+      var spanSession = document.getElementById("close-session");
+      // var spanCC = document.getElementById("close-cc");
+      var iframe1 = document.getElementById("iframe-modal1");
+      var iframe2 = document.getElementById("iframe-modal2");
+      // var iframe3 = document.getElementById("iframe-modal3");
+
+
+
+      // When the user clicks the button, open the modal 
+      btn.onclick = function() {
+        modal.style.display = "flex";
+        iframe1.src = "{% url 'upload' room_code %}"
+        iframe2.src="{% url 'downloads' room_code %}"
+      }
+
+      // When the user clicks on <span> (x), close the modal
+      span.onclick = function() {
+        modal.style.display = "none";
+      }
+
+      
+
+
+      ////////// REMOTE SESSION ///////////////////
+      // When the user clicks the button, open the modal 
+      remoteSessionBtn.onclick = function() {
+        // iframe3.src = "#"
+        sessionmodal.style.display = "flex";
+        // iframe3.src = "https://02e1-20-207-207-133.ngrok-free.app"
+      }
+      ccBtn.onclick = function() {
+        if (ccmodal.style.display === "none" || ccmodal.style.display === "") {
+            ccmodal.style.display = "flex";
+            // iframe3.src = "https://02e1-20-207-207-133.ngrok-free.app"; // Uncomment if needed
+        } else {
+            ccmodal.style.display = "none";
+        }
+      }
+
+
+      // When the user clicks on <span> (x), close the modal
+        spanSession.onclick = function() {
+          sessionmodal.style.display = "none";
+          // iframe3.src = "#";
+      }
+      // When the user clicks on <span> (x), close the modal
+      //   spanCC.onclick = function() {
+      //     ccmodal.style.display = "none";
+      //     // iframe3.src = "#";
+      // }
+
+
+
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function(event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+          
+        }
+      }
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function(event) {
+        if (event.target == sessionmodal) {
+          sessionmodal.style.display = "none";
+          
+        }
+        if (event.target == ccmodal) {
+          ccmodal.style.display = "none";
+          
+        }
+      }
+
+      // Get the container element
+      var container = document.querySelector('.result');
+
+      // Function to scroll to the bottom
+      function scrollToBottom() {
+          container.scrollTop = container.scrollHeight;
+      }
+
+      // Call the function to scroll to the bottom
+      scrollToBottom();
+      // $("#mydiv")
+      //       .html('<object data="http://your-website-domain"/>');
+
+ 
+      // var frm = $('#modal-form');
+      //     frm.submit(function () {
+      //         $.ajax({
+      //             type: frm.attr('post'),
+      //             url: frm.attr(''),
+      //             data: frm.serialize(),
+      //             success: function (data) {
+      //                 console.log("File Uploaded");
+      //                 modal_upload.style.display = "block";
+      //                 modal_upload.innerHTML = `
+      //                 <div class="col-md-12 space">
+      //                   <p> Thank you for uploading: </p>
+              
+      //                   <br>
+                      
+      //                   <p> You can share it by copying the link below </p>
+      //                   <p><b>${window.location.hostname}/download/{{download_url}}</b></p>
+      //                 </div>
+      //                 `
+      //             },
+      //             error: function(data) {
+      //                 console.log("Something went wrong!");
+      //             }
+      //         });
+      //         return false;
+      //     });
+
+
+        
+    </script>
+    <script
+    type="module"
+    src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
+  ></script>
+  <script
+    nomodule
+    src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
+  ></script>
+
+  <!-- LANGUAGES -->
+  <script src="{% static 'js/languages.js' %}"></script>
+
+  <!-- SCRIPT -->
+  <script src="{% static 'js/stt.js' %}"></script>
+  <script src="{% static 'js/tracker.js' %}"></script>
+   
+    {% endblock %}
+    {% block footer_block %}
+    <!-- <footer><p class="font-weight-bold" style="text-align: center;">Sound effects for new participant and chat obtained from https://zapslat.com</p></footer> -->
+    {% endblock %}
+
+
+    <!-- add onlne status in meet ;user image calling summary only moderator to see statsexchange inforemove alerts get devices calling add sumaary ai also with replicate-->
+    <!-- api.executeCommand('sendEndpointTextMessage', 'receiverParticipantId', 'text'); private messages-->
+    <!-- api.executeCommand('muteEveryone', 'audio/video'); -->
+    <!-- api.executeCommand('setFollowMe',
+    value: boolean, // set to true if participants should be following you, false otherwise
+); -->
+
+<!-- api.executeCommand('toggleModeration',
+    enable: Boolean,
+    mediaType: String // can be 'audio' (default) or 'video'
+); -->
+
+<!-- api.executeCommand('approveVideo',
+    participantId: String
+); -->
+
+<!-- api.executeCommand('rejectParticipant',
+    participantId: String,
+    mediaType: String // can be 'audio' (default) or 'video'
+); -->
+
+<!-- api.executeCommand('addBreakoutRoom',
+    name: String // Optional. The name or subject of the new room.
+); -->
+
+<!-- api.executeCommand('autoAssignToBreakoutRooms'); -->
+
+<!-- api.executeCommand('closeBreakoutRoom',
+    roomId: String // The id of the room to close.
+); -->
+
+<!-- api.executeCommand('joinBreakoutRoom',
+    roomId: String // Optional. The id of the room to join.
+); -->
+
+<!-- api.executeCommand('removeBreakoutRoom',
+    breakoutRoomJid: String // The jid of the breakout room to remove.
+); -->
+<!-- 
+api.executeCommand('sendParticipantToRoom',
+    participantId: String, // The id of the participant.
+    roomId: String // The id of the room.
+); -->
+
+<!-- api.executeCommand('showNotification', {
+  title: String, // Title of the notification.
+  description: String, // Content of the notification.
+  uid: String, // Optional. Unique identifier for the notification.
+  type: String, // Optional. Can be 'info', 'normal', 'success', 'warning' or 'error'. Defaults to 'normal'.
+  timeout: String // optional. Can be 'short', 'medium', 'long', or 'sticky'. Defaults to 'short'.
+}); -->

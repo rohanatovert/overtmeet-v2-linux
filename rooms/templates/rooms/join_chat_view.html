@@ -1,0 +1,80 @@
+{% extends 'main.html' %}
+
+{% load static %}
+
+{% block content %}
+
+    <!-- <h3 id="label-username">{{request.user.username}}</h3> -->
+    <div class="container-fluid join-view">
+      <div class="row">
+        <div class="col-lg-9 col-md-12 col-12 video-content">
+          <div id="video-container" class="video-container">
+            <div>
+              <video id="local-video" autoplay playsinline></video>
+            </div>
+          </div>
+          <div class="mt-4">
+            <button id="btn-join" class="btn btn-primary">Join Room</button>
+            <button id="btn-toggle-audio" class="btn btn-dark"><i class="fa-solid fa-volume-xmark"></i></button>
+            <button id="btn-toggle-video" class="btn btn-dark"><i class="fa-solid fa-video-slash"></i></button>
+            <a href="{% url 'remote' %}"><button id="btn-toggle-remote" class="btn btn-dark">Remote Control</button></a>
+            <button id="btn-share-screen" class="btn btn-dark"><i class="fa-sharp fa-solid fa-arrow-up-from-bracket"></i></button>
+            <button id="btn-record-screen" class="btn btn-dark"><i class="fa-solid fa-record-vinyl"></i></button>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-12 col-12 chat-sec">
+          <div id="chat">
+            <div class="chat-head">
+              <h5 class="text-white">CHAT</h5>
+            </div>
+            
+            <div id="messages">
+              <ul id="message-list"></ul>
+            </div>
+            <div id="ct" class="chat-file">
+              <div class="msg-box">
+                <input type="text" id="msg" >
+                <button id="btn-send-msg" class="send-btn"><i class="fa-solid fa-paper-plane" aria-hidden="true" ></i></button>
+              </div>
+              <div class="file-share">
+                <div>
+                  <label for="img" class="choose-file"><input type="file" id="images" accept="image/*"  required></label>
+                </div>
+                <div id="select-file-dialog" style="display: none;">
+                  <div id="dialog-content">
+                    <div id="select-file">
+                      <div id="label">Select a file:</div>
+                      <input type="file" id="select-file-input">hi
+                    </div>
+                    <div id="dialog-footer">
+                      <button id="ok-button" disabled>Ok</button>
+                      <button id="cancel-button" class="cancel-button">Cancel</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    
+    <div class="main-grid-container">
+      <audio class="sound-effect" src="{% static 'sounds/new-chat-message.mp3' %}" id="chat-sound"></audio>
+      <!-- Sound effects for new participant and chat obtained from https://zapslat.com -->
+      <audio class="sound-effect" src="{% static 'sounds/peer-connection-opened.mp3' %}" id="new-connection"></audio>
+      <!-- Sound effects for new participant and chat obtained from https://zapslat.com -->
+    </div>
+    <script src="https://www.WebRTC-Experiment.com/RecordRTC.js"></script>
+    <script type="text/javascript">
+    // declare these variables in template
+    // to access from peer.js
+    var username = '{{request.user.username}}';
+    </script>
+    <script type="text/javascript" src="{% static 'js/peer.js' %}"></script>
+    
+    {% endblock %}
+    {% block footer_block %}
+    <!-- <footer><p class="font-weight-bold" style="text-align: center;">Sound effects for new participant and chat obtained from https://zapslat.com</p></footer> -->
+    {% endblock %}

@@ -1,0 +1,239 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+<div class="container-fluid  room-list-sec">
+    <div class="summary-modal" tabindex="-1" id="summaryModal">
+        <div class="summary-modal-dialog">
+          <div class="summary-modal-content">
+            <div class="summary-modal-header">
+              <h5 class="summary-modal-title" id="summaryHeader"">Summary for </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="summary-modal-body">
+                <div id="summaryContainer">
+                    <!-- The summary content will be displayed here -->
+                </div>
+            </div>
+            <!-- <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div> -->
+          </div>
+        </div>
+      </div>
+
+    <div id="rooms" class="room-list">
+        <div class="row">
+            <div class="col-12 room-list-head">
+                <h3>Your <span>Overt Meet</span>&nbsp;Room List</h3>
+            </div>
+            <div class="col-lg-8 col-md-12 ">
+                <div class="card mb-3 " id="room-card">
+                    
+                    
+                    <div class="row g-0">
+                        <div id="motion-graphics-room">
+                        </div>
+                        <div class="col-lg-8 col-md-12 room-list-rooms ">
+                            <div class="card-body">
+                                <ul class="list-group">
+                                    {% for room in rooms %}
+                                    <li class="list-group-item room-list-detail" id="room-list-detail">
+                                        <form method="post" >
+                                            {% csrf_token %}
+                                            <div class="d-flex">
+                                                <div class="p-2 flex-grow-1">
+                                                    <p >{{ room.name }}</p>
+                                                </div>
+                                                {% if plan == "enterprise" %}
+                                                    {% if status == "Success" %}
+                                                    <div class="ml-auto  p2">
+                                                        <label class="checkbox-inline">
+                                                            <input type="checkbox" data-on="Enabled" data-off="Disabled" name="bot"> Bot
+                                                        </label>
+                                                    </div>
+                                                    {% endif %}
+                                                {% endif %}
+                                                <div class="ml-auto p-2">
+                                                    <a href = "#" id="openTranscriptLink" onclick="showRoomSummary('{{ room.code }}')">
+                                                        <h6>Summary</h6>
+                                                    </a>
+                                                    <!-- <a href = "#" id="openTranscriptLink">
+                                                        <h6>Transcript</h6>
+                                                    </a> -->
+                                                </div>
+
+                                                <!-- <div class="ml-auto  p2">
+                                                    <a href="{% url 'summary' meetingId=room.code %}" class="">
+                                                    Summarize
+                                                    </a>
+                                                </div> -->
+                                                
+                                            </div>
+                                            
+                                            <div class="display: flex; justify-content:flex-end;">
+                                                <button class="btn" type="submit">Join</button>
+                                                <!-- <div> -->
+                                                    
+                                                    <input type="hidden" name="room_code" value="{{ room.code }}">
+                                                    <input type="hidden" name="room_name" value="{{ room.name }}">
+                                                <!-- </div> -->
+                                                
+
+                                                <button id="{{ room.code }}" class="btn">Copy Code</button>
+                                                       
+                                            
+                                                <a class="btn" href="mailto:?
+                                                        &subject=Overt Meet Invite
+                                                        &body=Hey there! Join the meeting using this link: 
+                                                        {{ request.scheme }}://{{ request.META.HTTP_HOST }}{% url 'meeting' room.code%}">
+                                                    Invite Via Mail
+                                                </a>
+                                                <button onclick="share()" class="btn">
+                                                    Share on whatsapp
+                                                    
+                                                </button>
+                                                
+                                            </div>
+                                            
+                                           
+                                            
+                                            
+                                        </form>
+                                        
+                                        
+                                    </li>
+                                    <script>
+                                        var btnCopy = document.querySelector('#{{ room.code }}');
+                                        btnCopy.addEventListener('click', () => {
+                                            var copyText = document.createElement('textarea');
+                                            document.body.appendChild(copyText);
+                                            copyText.innerHTML = '{{ room.code }}';
+                                            /* Select the text field */
+                                            copyText.select();
+                                            copyText.setSelectionRange(0, 99999); /* For mobile devices */
+                    
+                                            /* Copy the text inside the text field */
+                                            document.execCommand("copy");
+                                            document.body.removeChild(copyText);
+                                        });
+                                    </script>
+                                    <script type="text/javascript">
+          
+                                        // Function to share on whatsapp
+                                        function share() {
+                                  
+                                            // Getting user input
+                                            var message = "Greeting! Please join the meeting using this link:{{ request.scheme }}://{{ request.META.HTTP_HOST }}{% url 'meeting' room.code%}";
+                                  
+                                            // Opening URL
+                                            window.open(
+                                                `https://api.whatsapp.com/send?text=Hey there! Join the meeting using this link: 
+                                                    {{ request.scheme }}://{{ request.META.HTTP_HOST }}{% url 'meeting' room.code%}`
+                                                // "whatsapp://send?text=" + message,
+                                  
+                                                // // This is what makes it 
+                                                // // open in a new window.
+                                                // '_blank' 
+                                            );
+                                        }
+                                    </script>
+                                    {% endfor %}
+
+                                    
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12  create-room-btn">
+                <a class="btn" href="{% url 'room_creation_view' %}">Create New Room</a>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<script>
+    $(function() {
+      $('#toggle-two').bootstrapToggle({
+        on: 'Enabled',
+        off: 'Disabled'
+      });
+    })
+  </script>
+    
+    <script>
+    //     document.getElementById('openTranscriptLink').addEventListener('click', function() {
+        
+        // Assuming your close button has the class 'btn-close'
+    var closeButton = document.querySelector('.btn-close');
+
+    // Add a click event listener to the close button
+    closeButton.addEventListener('click', function() {
+        // Find the modal element by its ID
+        var modal = document.getElementById('summaryModal');
+
+        // Use the Bootstrap modal method to close the modal
+        modal.style.display = "none";
+    });
+    // });
+    function showRoomSummary(roomCode) {
+        // Filter summaries based on roomName
+        // Fetch the summary data
+        var apiUrl = '/summary/'+roomCode;
+        fetch(apiUrl, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Access the summaries data
+                const summariesContainer = document.getElementById('summaryContainer');
+                var summary = "No record available for this meet";
+                if (data.summaries!==''){
+                    // console.log(JSON.parse(data.summaries)[0]);
+                    // var summary = JSON.parse(data.summaries)[0].fields.summary;
+                     // Iterate over the summaries array and create HTML elements
+                    const summariesArray = JSON.parse(data.summaries);
+                    summariesArray.forEach(summaryObj => {
+                    const dateElement = document.createElement('h3');
+                    // console.log(summaryObj.fields);
+                    dateElement.textContent = summaryObj.fields.uploaded_on;
+                    const summaryElement = document.createElement('p');
+                    summaryElement.textContent = summaryObj.fields.summary;
+
+                    // Append the summary element to the container
+                    summariesContainer.appendChild(dateElement);
+                    summariesContainer.appendChild(summaryElement);
+                    });
+                };
+                
+                
+                // Now you can work with the summaries in JavaScript
+                
+                    // Display the summary in the summaryContainer
+                // Replace 'summaryData' with the actual data from your Django model
+                // document.getElementById('summaryHeader').innerHTML += roomCode;
+                document.getElementById('summaryModal').style.display = "block";
+
+                // var summaryData = ;
+
+                // Update the content of the 'summaryContainer' div with the summary data
+                // document.getElementById('summaryContainer').innerHTML = summary;
+            })
+            .catch(error => console.error('Error:', error));
+
+    
+        
+    };
+        </script>
+
+
+{% endblock %}

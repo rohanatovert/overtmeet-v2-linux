@@ -1,0 +1,23 @@
+
+{% extends 'main.html' %}
+
+{% block content %}
+
+{% if status == "Success" %}
+    <div class="alert alert-success" role="alert">
+        <h4 class="alert-heading">Well done!</h4>
+        <p>Aww yeah, your transaction is successful! Your upgraded plan is now active. Thank you for your payment.</p>
+        <hr>
+        <p class="mb-0">You can now enjoy new upgraded features in your plan.</p>
+    </div>
+    
+{% elif status == "Failure" %}
+    <!-- Error Alert -->
+    <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">Oh No!</h4>
+        <p>Oh No! Your transaction is failed. Don't panic, it happens! Please try again using this <a href="{% url 'pricing' %}">link</a>.</p>
+        <hr>
+        <p class="mb-0">If the money is deducted from your bank, please write us a mail regarding your last payment at: mail@overtideasandsolution.in</p>
+    </div>
+{% endif %} 
+{% endblock %}

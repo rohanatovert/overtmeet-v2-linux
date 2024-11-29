@@ -1,0 +1,64 @@
+{% extends 'main.html' %}
+
+{% block content %}
+    {% if trial %}
+        <div id="some_flag" title="Some Flag">
+            <p>In our free trial you can create 5 rooms per day. Sign up now to enjoy unlimited rooms!</p>
+        </div>
+    {% endif %}
+    <section class=" room-creation">
+        <div class="row room-creation-sec">
+            <div class="col-lg-8  col-12 room-creation-head">
+                <h3>Create your new<br><span>Overt Meet</span> Room</h3>
+               
+            </div>
+            <div class="col-lg-4  room-creation-form">
+                <form action="" method="post">
+                    {% if trial %}
+                        <small class="form-text text-muted">{{ trial }}</small>
+                    {% endif %}
+                    {{ form.non_field_errors }}
+                    {% csrf_token %}
+                    {% for field in form %}
+                    <h3>Name Your Conference Room</h3>
+                    <div class="form-group">
+                        {{ field }}
+                            {% if field.help_text %}
+                            <small class="form-text text-muted">{{ field.help_text }}</small>
+                            {% endif %}
+                            {% for error in field.errors %}
+                            <small class="form-text text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+                    <div class="create-btn mt-4">
+                        <button class="btn" type="submit">Create Room</button>
+                        
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(function() {
+                $( "#some_flag" ).dialog({
+                    modal: true,
+                    closeOnEscape: false,
+                    dialogClass: "no-close",
+                    resizable: false,
+                    draggable: false,
+                    width: 600,
+                    buttons: [
+                        {
+                            text: "OK",
+                            click: function() {
+                            $( this ).dialog( "close" );
+                            }
+                        }
+                    ]
+                });
+            });
+        });
+    </script>
+{% endblock %}

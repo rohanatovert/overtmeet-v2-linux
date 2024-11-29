@@ -1,0 +1,92 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<!-- <div class="container-fluid select-container-sec">
+    <div class="container select-container">
+        <div class="row select-row">
+                <div class="col-lg-12 col-md-12 select-room">
+                    <form method="get">
+                        <p class="font-weight-bold">Copy and paste a room code and press Enter.</p>
+                        <input type="text" name="room-input" placeholder="{{placeholder}}">
+                        {% if warning %}
+                            <p style="color: darkred;">Room does not exist. Enter a valid room name.</p>
+                        {% endif %}
+                        <div class="button">
+                            <button class="btn ">Enter >></button>
+                        </div>
+                        
+                    </form>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 col-sm-12">
+                        <div class="card text-dark select-cards mb-3" style="max-width: 18rem;">
+                            <div class="card-header">Header</div>
+                            <div class="card-body">
+                              <h5 class="card-title">Primary card title</h5>
+                              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            </div>
+                          </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-12">
+                        <div class="card text-dark select-cards mb-3" style="max-width: 18rem;">
+                            <div class="card-header">Header</div>
+                            <div class="card-body">
+                              <h5 class="card-title">Primary card title</h5>
+                              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            </div>
+                          </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-12">
+                        <div class="card text-dark select-cards mb-3" style="max-width: 18rem;">
+                            <div class="card-header">Header</div>
+                            <div class="card-body">
+                              <h5 class="card-title">Primary card title</h5>
+                              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            </div>
+                          </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-12">
+                        <div class="card text-dark select-cards  mb-3" style="max-width: 18rem;">
+                            <div class="card-header">Header</div>
+                            <div class="card-body">
+                              <h5 class="card-title">Primary card title</h5>
+                              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            </div>
+                          </div>
+                    </div>
+                </div>
+            </div>
+           
+       
+    </div>
+</div> -->
+<div class="container-fluid px-lg-4 select-room-sec">
+  <div class="row">
+    <div class="col-12 text-center pt-3 select-room-col">
+      <h3 class="select-room-head">
+        Ready to meet on Overt<br><span>Meeting?</span>
+      </h3>
+      <p>To connect to an online meeting, enter the Overt Meeting ID provided by the organizer.</p>
+    </div>
+    <div class="col-12 d-flex justify-content-center">
+      <div class="card px-3 meet-id-card">
+        <form action="" method="get">
+          <h3 class="text-center">Join a Meeting</h3>
+        <!-- <p>Enter a id or Meeting Room</p> -->
+          {% if warning %}
+          <p style="color: rgb(255, 251, 0);">Room does not exist. Enter a valid room name.</p>
+          {% endif %}
+
+          <div class="button mt-3 text-center meet-btn">
+            <input type="text" name="room-input" placeholder="{{placeholder}}" class="form-control mt-3">
+            <br>
+            <button class="btn">Enter >></button>
+          </div>
+        </form>
+        
+      </div>
+    </div>
+  </div>
+</div>
+   
+{% endblock %}

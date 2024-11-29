@@ -1,0 +1,70 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+  <section class="update-sec" >
+    <div class="container update-container ">
+      <div class="row update-card-sec">
+        <div class="col-lg-3 col-md-5 col-12 update-banner">
+          {% if form.image.value %}
+          <img src="{% get_media_prefix %}{{ form.image.value }}" class="img-fluid" alt="{{ form.image.value }}">
+          {% else %}
+          <img src="{% get_media_prefix %}/user_images/default.png" class="img-fluid" alt="{{ form.image.value }}">
+          {% endif %}
+        </div>
+        <div class="col-lg-9 col-md-7 col-12  update-card-content">
+          <div class="card update-card">
+            <div class="card-body">
+              <div class="form-border">
+                <p class="update-head">Update</p>
+              <form class="form"  method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="{% if form.email.errors %}has-error{% endif %}">
+                  
+                  <div class="">
+                    <label class="form-label" for="{{ form.email.id_for_label }}" >{{ form.email.label }}</label>
+                    {{ form.email }}
+                    
+                  </div>
+                </div> 
+                <div class=" {% if form.username.errors %}has-error{% endif %}">
+                  
+                  <div class="">
+                    <label class="form-label" for="{{ form.username.id_for_label }}" >{{ form.username.label }}</label>
+                    {{ form.username }}
+                    
+                  </div>
+                </div> 
+                <div class="{% if form.image.errors %}has-error{% endif %}">
+                  
+                  <div class="">
+                    <label class="form-label" for="{{ form.image.id_for_label }}" >{{ form.image.label }}</label>
+                    {{ form.image }}
+                    
+                  </div>
+                </div> 
+                <div class="update-btn">
+                  <button type="submit" class="btn">Update</button>
+                </div>
+              </form>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+        
+        
+      </div>
+    </div>
+  </section>
+  <!-- <script>
+    $(document).ready(function() {
+        var mydivs = document.getElementsByClassName('input-group');
+        console.log(mydiv);
+        var source = mydiv.getElementsByTagName('a');
+        console.log(source);
+      });
+</script> -->
+{% endblock %}
+
+
+

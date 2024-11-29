@@ -1,0 +1,34 @@
+
+{% extends 'main.html' %}
+{% block content %}
+  
+    <section class="landing-sec">
+        
+        <div class="container landing-content">
+            <div class="row">
+                <div class="col-lg-5 landing-head-content">
+                    <div class="landing-head">
+                        <h4>Discover Limitless Connections.</h4>
+                        <h1>Fast, Reliable, and <span>Secure</span> Conferencing.</h1>
+                        <p>Hold incredible events, share knowledge,build and grow your community, Create Opportunity.</p>
+                        <button onclick="location.href='{% url 'room_creation_view' %}';"><i class="fa-solid fa-video"></i>Create Meeting</button>
+                    </div>
+                </div>
+                <div class="col-lg-7 landing-banner">
+                    <img src="../../../static/images/landing-banner.jpg" alt="">
+                </div>
+                <div class="col-lg-6 landing-content-2">
+                    <h2>Ready to setup your next <span>Conference?</span></h2>
+                    <a href="{% url 'features' %}">Learn More</a>
+                </div>
+                <div class="col-lg-6 landing-content-3">
+                    <p>Welcome to Overt Meet - your premier online video conferencing platform designed exclusively for organizations. With our powerful features and intuitive interface, connecting has never been easier. Experience the true essence of seamless communication and collaboration.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+
+
+
